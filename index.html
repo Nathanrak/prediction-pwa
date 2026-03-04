@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crash Prediction Pro</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0e0e16">
+
+<style>
+body{
+  margin:0;
+  background:#0e0e16;
+  font-family:Arial, sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  color:white;
+}
+
+.app{
+  width:390px;
+  background:#1a1a2b;
+  border-radius:25px;
+  padding:20px;
+  box-shadow:0 0 40px rgba(0,0,0,0.7);
+}
+
+h3{margin-top:0;color:gold;}
+
+.button{
+  background:gold;
+  color:black;
+  font-weight:bold;
+  text-align:center;
+  padding:12px;
+  border-radius:10px;
+  cursor:pointer;
+  margin:15px 0;
+}
+
+.result{
+  font-size:32px;
+  color:gold;
+  text-align:center;
+}
+
+.history{
+  margin-top:10px;
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+}
+
+.history-item{
+  min-width:60px;
+  padding:8px;
+  border-radius:20px;
+  text-align:center;
+  font-size:13px;
+  font-weight:bold;
+}
+
+.low{background:#0f5132;}
+.medium{background:#664d03;}
+.big{background:#58151c;}
+
+.stats, .simulation{
+  margin-top:15px;
+  font-size:13px;
+  background:#11111d;
+  padding:10px;
+  border-radius:10px;
+}
+
+.simulation button{
+  margin:3px;
+  padding:6px 10px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+<h3>CRASH PREDICTION PWA</h3>
+
+<div id="result" class="result">--</div>
+
+<div class="button" onclick="generatePrediction()">
+CALCULER LA PREDICTION
+</div>
+
+<div class="history" id="history"></div>
+
+<div class="stats">
+<strong>STATISTIQUE :</strong><br>
+Total : <span id="total">0</span><br>
+Low : <span id="lowStat">0%</span> |
+Medium : <span id="medStat">0%</span> |
+Big : <span id="bigStat">0%</span><br>
+Big Hits : <span id="bigCount">0</span>
+</div>
+
+<div class="simulation">
+<strong>MODE SIMULATION :</strong><br>
+<button onclick="runSimulation(100)">100</button>
+<button onclick="runSimulation(500)">500</button>
+<button onclick="runSimulation(1000)">1000</button>
+<div id="simResult" style="margin-top:8px;"></div>
+</div>
+
+</div>
+
+<script>
+
+/* =============================
+   DATA STORAGE
+============================= */
+
+let historyList = JSON.parse(localStorage.getItem("history")) || [];
+let stats = JSON.parse(localStorage.getItem("stats")) || {
+  total:0,
+  low:0,
+  medium:0,
+  big:0
+};
+
+/* =============================
+   GENERATE PREDICTION
+============================= */
+
+function generatePrediction(){
+
+  let chance = Math.random();
+  let value, type;
+
+  if(chance < 0.65){
+    value = 1.1 + Math.random()*0.8;
+    type="low";
+    stats.low++;
+  }
+  else if(chance < 0.9){
+    value = 2 + Math.random()*2;
+    type="medium";
+    stats.medium++;
+  }
+  else{
+    value = 5 + Math.random()*10;
+    type="big";
+    stats.big++;
+  }
+
+  value = value.toFixed(2);
+  stats.total++;
+
+  document.getElementById("result").innerText = value + "x";
+
+  historyList.unshift({v:value+"x", t:type});
+  if(historyList.length > 10) historyList.pop();
+
+  saveData();
+  renderHistory();
+  updateStats();
+}
+
+/* =============================
+   RENDER FUNCTIONS
+============================= */
+
+function renderHistory(){
+  let h=document.getElementById("history");
+  h.innerHTML="";
+  historyList.forEach(i=>{
+    h.innerHTML += `<div class="history-item ${i.t}">${i.v}</div>`;
+  });
+}
+
+function updateStats(){
+  document.getElementById("total").innerText = stats.total;
+
+  let lowP = ((stats.low/stats.total)*100 || 0).toFixed(1);
+  let medP = ((stats.medium/stats.total)*100 || 0).toFixed(1);
+  let bigP = ((stats.big/stats.total)*100 || 0).toFixed(1);
+
+  document.getElementById("lowStat").innerText = lowP+"%";
+  document.getElementById("medStat").innerText = medP+"%";
+  document.getElementById("bigStat").innerText = bigP+"%";
+  document.getElementById("bigCount").innerText = stats.big;
+}
+
+/* =============================
+   SAVE
+============================= */
+
+function saveData(){
+  localStorage.setItem("history",JSON.stringify(historyList));
+  localStorage.setItem("stats",JSON.stringify(stats));
+}
+
+/* =============================
+   SIMULATION MODE
+============================= */
+
+function runSimulation(rounds){
+
+  let sim = {total:0,low:0,medium:0,big:0,sum:0};
+
+  for(let i=0;i<rounds;i++){
+
+    let chance = Math.random();
+    let value;
+
+    if(chance < 0.65){
+      value = 1.1 + Math.random()*0.8;
+      sim.low++;
+    }
+    else if(chance < 0.9){
+      value = 2 + Math.random()*2;
+      sim.medium++;
+    }
+    else{
+      value = 5 + Math.random()*10;
+      sim.big++;
+    }
+
+    sim.total++;
+    sim.sum += value;
+  }
+
+  let avg = (sim.sum/sim.total).toFixed(2);
+
+  document.getElementById("simResult").innerHTML = `
+    Moyenne : ${avg}x<br>
+    Low : ${((sim.low/sim.total)*100).toFixed(1)}% |
+    Medium : ${((sim.medium/sim.total)*100).toFixed(1)}% |
+    Big : ${((sim.big/sim.total)*100).toFixed(1)}%
+  `;
+}
+
+/* =============================
+   INIT
+============================= */
+
+renderHistory();
+updateStats();
+
+/* =============================
+   SERVICE WORKER
+============================= */
+
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("service-worker.js");
+}
+
+</script>
+
+</body>
+</html>
