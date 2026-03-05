@@ -3,232 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviator Predictor Ultra Pro</title>
+    <title>Aviator Predictor Pro - GitHub Edition</title>
     <style>
         :root {
-            --primary-gold: #ffb400;
-            --bg-dark: #0f0f0f;
-            --card-bg: #1a1a1a;
-            --input-bg: #252525;
-            --accent-blue: #00f2ff;
+            --primary-yellow: #ffb400;
+            --bg-dark: #121212;
+            --input-bg: #262626;
+            --text-gray: #7a7a7a;
         }
 
         body {
             background-color: var(--bg-dark);
             color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            overflow: hidden;
         }
 
-        .predictor-card {
-            background: var(--card-bg);
-            width: 360px;
-            padding: 25px;
-            border-radius: 30px;
-            box-shadow: 0 0 30px rgba(255, 180, 0, 0.1);
+        .app-container {
+            background: #1a1a1a;
+            width: 380px;
+            padding: 30px;
+            border-radius: 35px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
             border: 1px solid #333;
-            text-align: center;
         }
 
-        .live-clock {
+        /* Ny famantaranandro eo ambony */
+        .clock-header {
             background: #000;
-            padding: 15px;
-            border-radius: 15px;
-            font-size: 2.2rem;
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 2.8rem;
             font-weight: 900;
-            color: #fff;
+            text-align: center;
+            margin-bottom: 30px;
             letter-spacing: 2px;
-            margin-bottom: 20px;
             border: 1px solid #444;
         }
 
-        .label-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-
         .label {
-            font-size: 10px;
-            color: #777;
+            font-size: 11px;
+            color: var(--text-gray);
             text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
             font-weight: bold;
         }
 
-        .auto-btn {
-            background: transparent;
-            border: 1px solid var(--primary-gold);
-            color: var(--primary-gold);
-            font-size: 9px;
-            padding: 2px 8px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .input-box {
+        .input-field {
             background: var(--input-bg);
             border: 1px solid #3d3d3d;
-            border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 15px;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 25px;
+            text-align: center;
         }
 
         input {
             background: transparent;
             border: none;
-            color: var(--primary-gold);
-            font-size: 1.2rem;
-            font-weight: bold;
+            color: var(--primary-yellow);
+            font-size: 1.5rem;
+            font-weight: 800;
             text-align: center;
             width: 100%;
             outline: none;
         }
 
-        .grid-3 {
+        .row-data {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .auto-btn {
+            background: transparent;
+            border: 1px solid var(--primary-yellow);
+            color: var(--primary-yellow);
+            font-size: 10px;
+            padding: 3px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .grid-v {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 15px;
+            margin-bottom: 30px;
         }
 
-        .btn-main {
-            background: linear-gradient(to bottom, #ffcc00, #ff9900);
-            color: black;
-            width: 100%;
-            padding: 18px;
+        .v-box {
+            background: var(--input-bg);
+            border: 1px solid #3d3d3d;
             border-radius: 15px;
-            border: none;
-            font-weight: 900;
-            font-size: 1rem;
-            text-transform: uppercase;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 153, 0, 0.4);
-            transition: 0.2s;
+            padding: 15px;
         }
 
-        .btn-main:active { transform: scale(0.96); }
-
-        .result-panel {
-            margin-top: 25px;
-            background: rgba(255, 255, 255, 0.03);
+        /* Ny bokotra mavo lehibe */
+        .btn-predict {
+            background: linear-gradient(180deg, #ffcc00 0%, #ff9900 100%);
+            color: #000;
+            width: 100%;
+            padding: 22px;
             border-radius: 20px;
-            padding: 20px;
-            border: 1px dashed #444;
+            border: none;
+            font-size: 1.3rem;
+            font-weight: 900;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 10px 25px rgba(255, 153, 0, 0.4);
+            margin-bottom: 35px;
+        }
+
+        /* Ny valiny (Result) */
+        .result-panel {
+            border: 2px dashed #333;
+            border-radius: 30px;
+            padding: 25px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.02);
         }
 
         .res-time {
-            font-size: 2.3rem;
-            color: var(--primary-gold);
-            font-weight: bold;
-            margin: 10px 0;
+            font-size: 3rem;
+            color: var(--primary-yellow);
+            font-weight: 800;
+            margin: 15px 0;
+            text-shadow: 0 0 20px rgba(255, 180, 0, 0.4);
         }
 
-        .mults {
+        .mult-row {
             display: flex;
             justify-content: space-around;
-            font-weight: 800;
-            font-size: 1.1rem;
+            font-size: 1.4rem;
+            font-weight: 900;
         }
 
-        .status-msg {
-            font-size: 11px;
-            color: #555;
-            margin-top: 10px;
+        .db-status {
+            font-size: 10px;
+            color: #444;
+            text-align: center;
+            margin-top: 20px;
+            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
 
-<div class="predictor-card">
-    <div class="live-clock" id="clock">00:00:00</div>
+<div class="app-container">
+    <div class="clock-header" id="liveClock">00:00:00</div>
 
-    <div class="label-row">
-        <span class="label">Dernier Multiplicateur</span>
-    </div>
-    <div class="input-box">
-        <input type="number" id="lastMult" step="0.01" value="1.36">
+    <span class="label">Dernier Multiplicateur</span>
+    <div class="input-field">
+        <input type="number" id="lastM" step="0.01" value="1.36">
     </div>
 
-    <div class="label-row">
-        <span class="label">V1 - V2 - V3 Data</span>
-        <button class="auto-btn" onclick="autoFill()">AUTO-GENERATE</button>
+    <div class="row-data">
+        <span class="label">V1 - V2 - V3 DATA (Round ID)</span>
+        <button class="auto-btn" onclick="generateRoundData()">AUTO-GENERATE</button>
     </div>
-    <div class="grid-3">
-        <div class="input-box" style="margin-bottom:0"><input type="number" id="v1" placeholder="V1"></div>
-        <div class="input-box" style="margin-bottom:0"><input type="number" id="v2" placeholder="V2"></div>
-        <div class="input-box" style="margin-bottom:0"><input type="number" id="v3" placeholder="V3"></div>
+    <div class="grid-v">
+        <div class="v-box"><input type="number" id="v1" placeholder="V1"></div>
+        <div class="v-box"><input type="number" id="v2" placeholder="V2"></div>
+        <div class="v-box"><input type="number" id="v3" placeholder="V3"></div>
     </div>
 
-    <button class="btn-main" onclick="runProCalc()">Calculer la Prédiction</button>
+    <button class="btn-predict" onclick="calculate()">Calculer la Prédiction</button>
 
     <div class="result-panel">
-        <span class="label" style="color:#aaa">Prochain Signal</span>
+        <span class="label" style="color: #666;">Prochain Signal</span>
         <div class="res-time" id="resTime">--:--:--</div>
-        <div class="mults">
-            <span style="color:var(--accent-blue)" id="m1">x--</span>
-            <span style="color:var(--primary-gold)" id="m2">x--</span>
-            <span style="color:red" id="m3">x--</span>
+        <div class="mult-row">
+            <span style="color: #00f2ff;" id="x1">x--</span>
+            <span style="color: #ffb400;" id="x2">x--</span>
+            <span style="color: #ff3c3c;" id="x3">x--</span>
         </div>
     </div>
-    <div class="status-msg">DATABASE: CONNECTED | ALGO: ACTIVE</div>
+
+    <div class="db-status">DATABASE: CONNECTED | ALGO: ROUND-ID ANALYSIS</div>
 </div>
 
 <script>
-    // 1. Ora velona
+    // 1. Mampandeha ny ora (Clock)
     setInterval(() => {
-        document.getElementById('clock').innerText = new Date().toLocaleTimeString('fr-FR');
+        document.getElementById('liveClock').innerText = new Date().toLocaleTimeString('fr-FR');
     }, 1000);
 
-    // 2. Auto-Fill Function (Fandaharana ho azy)
-    function autoFill() {
-        const now = new Date();
-        document.getElementById('v1').value = Math.floor(Math.random() * 500) + 100;
-        document.getElementById('v2').value = now.getSeconds() * 7;
-        document.getElementById('v3').value = now.getMinutes() + 200;
-        playBeep(400, 0.1);
+    // 2. Logic hamenoana ny V1, V2, V3 ho azy (Round ID Sim)
+    function generateRoundData() {
+        // Maka tarehimarika 3 kisendrasendra hoatry ny Round ID
+        document.getElementById('v1').value = Math.floor(Math.random() * 900) + 100;
+        document.getElementById('v2').value = Math.floor(Math.random() * 900) + 100;
+        document.getElementById('v3').value = Math.floor(Math.random() * 900) + 100;
     }
 
-    // 3. Pro Prediction Logic
-    function runProCalc() {
-        const btn = document.querySelector('.btn-main');
-        btn.innerText = "Analyse en cours...";
+    // 3. Logic hikajiana ny valiny (Calcul)
+    function calculate() {
+        const btn = document.querySelector('.btn-predict');
+        btn.innerText = "Analyse...";
         btn.disabled = true;
-        playBeep(600, 0.2);
 
         setTimeout(() => {
             const now = new Date();
-            // Ampiana 2-5 minitra ho an'ny signal
-            now.setMinutes(now.getMinutes() + Math.floor(Math.random() * 4) + 2);
+            // Ampiana 2 ka hatramin'ny 5 minitra ny ora izao
+            const minutesToAdd = Math.floor(Math.random() * 4) + 2;
+            now.setMinutes(now.getMinutes() + minutesToAdd);
+            
             document.getElementById('resTime').innerText = now.toLocaleTimeString('fr-FR');
 
-            // Multipliers
-            document.getElementById('m1').innerText = "x" + (1.1 + Math.random() * 0.4).toFixed(1);
-            document.getElementById('m2').innerText = "x" + (1.6 + Math.random() * 1.2).toFixed(1);
-            document.getElementById('m3').innerText = "x" + (4.0 + Math.random() * 8.0).toFixed(1);
+            // Kajy ny multiplier
+            document.getElementById('x1').innerText = "x" + (1.1 + Math.random() * 0.4).toFixed(1);
+            document.getElementById('x2').innerText = "x" + (1.8 + Math.random() * 1.5).toFixed(1);
+            document.getElementById('x3').innerText = "x" + (5.0 + Math.random() * 10).toFixed(1);
 
             btn.innerText = "Calculer la Prédiction";
             btn.disabled = false;
-            playBeep(800, 0.3);
         }, 1500);
-    }
-
-    // Feo (Simple Beep)
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    function playBeep(freq, dur) {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.frequency.value = freq;
-        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        osc.start();
-        osc.stop(audioCtx.currentTime + dur);
     }
 </script>
 
