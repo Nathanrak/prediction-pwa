@@ -3,230 +3,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviator Predictor Pro - GitHub Edition</title>
+    <title>Aviator Predictor Pro v3.0</title>
     <style>
         :root {
-            --primary-yellow: #ffb400;
-            --bg-dark: #121212;
-            --input-bg: #262626;
-            --text-gray: #7a7a7a;
+            --primary-gold: #ffb400;
+            --bg-dark: #0d0d0d;
+            --card-bg: #181818;
+            --input-bg: #222222;
+            --accent-cyan: #00f2ff;
         }
 
         body {
             background-color: var(--bg-dark);
             color: white;
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
             display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            padding: 20px;
             margin: 0;
         }
 
-        .app-container {
-            background: #1a1a1a;
-            width: 380px;
-            padding: 30px;
-            border-radius: 35px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+        .predictor-card {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 400px;
+            padding: 25px;
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
             border: 1px solid #333;
         }
 
-        /* Ny famantaranandro eo ambony */
-        .clock-header {
+        .live-clock {
             background: #000;
-            padding: 20px;
-            border-radius: 20px;
-            font-size: 2.8rem;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 2.2rem;
             font-weight: 900;
             text-align: center;
-            margin-bottom: 30px;
-            letter-spacing: 2px;
+            margin-bottom: 25px;
             border: 1px solid #444;
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.05);
+        }
+
+        .label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
         }
 
         .label {
-            font-size: 11px;
-            color: var(--text-gray);
+            font-size: 10px;
+            color: #666;
             text-transform: uppercase;
-            margin-bottom: 8px;
-            display: block;
-            font-weight: bold;
+            font-weight: 700;
         }
 
-        .input-field {
+        .auto-btn {
+            background: transparent;
+            border: 1.5px solid var(--primary-gold);
+            color: var(--primary-gold);
+            font-size: 9px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 800;
+            transition: 0.3s;
+        }
+
+        .auto-btn:hover { background: var(--primary-gold); color: black; }
+
+        .input-box {
             background: var(--input-bg);
-            border: 1px solid #3d3d3d;
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 25px;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 15px;
             text-align: center;
         }
 
         input {
             background: transparent;
             border: none;
-            color: var(--primary-yellow);
-            font-size: 1.5rem;
-            font-weight: 800;
-            text-align: center;
+            color: var(--primary-gold);
+            font-size: 1.3rem;
+            font-weight: bold;
             width: 100%;
+            text-align: center;
             outline: none;
         }
 
-        .row-data {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .auto-btn {
-            background: transparent;
-            border: 1px solid var(--primary-yellow);
-            color: var(--primary-yellow);
-            font-size: 10px;
-            padding: 3px 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .grid-v {
+        .grid-3 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
-        .v-box {
-            background: var(--input-bg);
-            border: 1px solid #3d3d3d;
-            border-radius: 15px;
-            padding: 15px;
-        }
-
-        /* Ny bokotra mavo lehibe */
-        .btn-predict {
-            background: linear-gradient(180deg, #ffcc00 0%, #ff9900 100%);
-            color: #000;
+        .btn-main {
+            background: linear-gradient(180deg, #ffcc00 0%, #ff9500 100%);
+            color: black;
             width: 100%;
-            padding: 22px;
-            border-radius: 20px;
+            padding: 20px;
+            border-radius: 18px;
             border: none;
-            font-size: 1.3rem;
             font-weight: 900;
-            cursor: pointer;
+            font-size: 1.1rem;
             text-transform: uppercase;
-            box-shadow: 0 10px 25px rgba(255, 153, 0, 0.4);
-            margin-bottom: 35px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(255, 149, 0, 0.3);
+            margin-bottom: 25px;
         }
 
-        /* Ny valiny (Result) */
+        /* Results Panel */
         .result-panel {
-            border: 2px dashed #333;
-            border-radius: 30px;
-            padding: 25px;
+            background: rgba(255,255,255,0.02);
+            border: 1px dashed #444;
+            border-radius: 25px;
+            padding: 20px;
             text-align: center;
-            background: rgba(255, 255, 255, 0.02);
         }
 
         .res-time {
-            font-size: 3rem;
-            color: var(--primary-yellow);
+            font-size: 2.5rem;
+            color: var(--primary-gold);
             font-weight: 800;
-            margin: 15px 0;
-            text-shadow: 0 0 20px rgba(255, 180, 0, 0.4);
+            margin: 10px 0;
+            text-shadow: 0 0 15px rgba(255, 180, 0, 0.3);
         }
 
         .mult-row {
             display: flex;
             justify-content: space-around;
-            font-size: 1.4rem;
-            font-weight: 900;
+            margin-top: 15px;
+            font-weight: 800;
+            font-size: 1.2rem;
         }
 
-        .db-status {
-            font-size: 10px;
+        /* Probability Chart */
+        .chart-container {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #333;
+        }
+
+        .bar-wrap {
+            height: 10px;
+            background: #222;
+            border-radius: 5px;
+            margin: 8px 0;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .bar-fill { height: 100%; transition: 1s ease-in-out; }
+
+        .status-footer {
+            font-size: 9px;
             color: #444;
             text-align: center;
             margin-top: 20px;
-            text-transform: uppercase;
+            letter-spacing: 1px;
         }
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    <div class="clock-header" id="liveClock">00:00:00</div>
+<div class="predictor-card">
+    <div class="live-clock" id="clock">00:00:00</div>
 
     <span class="label">Dernier Multiplicateur</span>
-    <div class="input-field">
-        <input type="number" id="lastM" step="0.01" value="1.36">
+    <div class="input-box"><input type="number" id="lastM" step="0.01" value="1.36"></div>
+
+    <div class="label-row">
+        <span class="label">V1 - V2 - V3 Data</span>
+        <button class="auto-btn" onclick="autoFill()">AUTO-GENERATE</button>
+    </div>
+    <div class="grid-3">
+        <div class="input-box" style="margin-bottom:0"><input type="number" id="v1" placeholder="V1"></div>
+        <div class="input-box" style="margin-bottom:0"><input type="number" id="v2" placeholder="V2"></div>
+        <div class="input-box" style="margin-bottom:0"><input type="number" id="v3" placeholder="V3"></div>
     </div>
 
-    <div class="row-data">
-        <span class="label">V1 - V2 - V3 DATA (Round ID)</span>
-        <button class="auto-btn" onclick="generateRoundData()">AUTO-GENERATE</button>
-    </div>
-    <div class="grid-v">
-        <div class="v-box"><input type="number" id="v1" placeholder="V1"></div>
-        <div class="v-box"><input type="number" id="v2" placeholder="V2"></div>
-        <div class="v-box"><input type="number" id="v3" placeholder="V3"></div>
-    </div>
-
-    <button class="btn-predict" onclick="calculate()">Calculer la Prédiction</button>
+    <button class="btn-main" onclick="startAnalysis()">Calculer la Prédiction</button>
 
     <div class="result-panel">
-        <span class="label" style="color: #666;">Prochain Signal</span>
+        <span class="label">Prochain Signal</span>
         <div class="res-time" id="resTime">--:--:--</div>
+        
         <div class="mult-row">
-            <span style="color: #00f2ff;" id="x1">x--</span>
-            <span style="color: #ffb400;" id="x2">x--</span>
-            <span style="color: #ff3c3c;" id="x3">x--</span>
+            <span style="color:var(--accent-cyan)" id="x1">x--</span>
+            <span style="color:var(--primary-gold)" id="x2">x--</span>
+            <span style="color:#ff3c3c" id="x3">x--</span>
+        </div>
+
+        <div class="chart-container">
+            <div class="label-row"><span class="label">Probability Accuracy</span> <span id="percent" class="label" style="color:var(--primary-gold)">0%</span></div>
+            <div class="bar-wrap">
+                <div id="bar" class="bar-fill" style="width: 0%; background: var(--primary-gold);"></div>
+            </div>
         </div>
     </div>
 
-    <div class="db-status">DATABASE: CONNECTED | ALGO: ROUND-ID ANALYSIS</div>
+    <div class="status-footer">DATABASE: CONNECTED | ALGORITHM: ACTIVE</div>
 </div>
 
 <script>
-    // 1. Mampandeha ny ora (Clock)
+    // 1. Live Clock
     setInterval(() => {
-        document.getElementById('liveClock').innerText = new Date().toLocaleTimeString('fr-FR');
+        document.getElementById('clock').innerText = new Date().toLocaleTimeString('fr-FR');
     }, 1000);
 
-    // 2. Logic hamenoana ny V1, V2, V3 ho azy (Round ID Sim)
-    function generateRoundData() {
-        // Maka tarehimarika 3 kisendrasendra hoatry ny Round ID
-        document.getElementById('v1').value = Math.floor(Math.random() * 900) + 100;
-        document.getElementById('v2').value = Math.floor(Math.random() * 900) + 100;
-        document.getElementById('v3').value = Math.floor(Math.random() * 900) + 100;
+    // 2. Auto-Fill Logic
+    function autoFill() {
+        document.getElementById('v1').value = Math.floor(Math.random() * 800) + 100;
+        document.getElementById('v2').value = Math.floor(Math.random() * 800) + 100;
+        document.getElementById('v3').value = Math.floor(Math.random() * 800) + 100;
     }
 
-    // 3. Logic hikajiana ny valiny (Calcul)
-    function calculate() {
-        const btn = document.querySelector('.btn-predict');
-        btn.innerText = "Analyse...";
+    // 3. Main Analysis Logic
+    function startAnalysis() {
+        const btn = document.querySelector('.btn-main');
+        btn.innerText = "Analyse en cours...";
         btn.disabled = true;
 
         setTimeout(() => {
             const now = new Date();
-            // Ampiana 2 ka hatramin'ny 5 minitra ny ora izao
-            const minutesToAdd = Math.floor(Math.random() * 4) + 2;
-            now.setMinutes(now.getMinutes() + minutesToAdd);
-            
+            // Ampiana 2-6 minitra
+            now.setMinutes(now.getMinutes() + Math.floor(Math.random() * 5) + 2);
             document.getElementById('resTime').innerText = now.toLocaleTimeString('fr-FR');
 
-            // Kajy ny multiplier
-            document.getElementById('x1').innerText = "x" + (1.1 + Math.random() * 0.4).toFixed(1);
-            document.getElementById('x2').innerText = "x" + (1.8 + Math.random() * 1.5).toFixed(1);
-            document.getElementById('x3').innerText = "x" + (5.0 + Math.random() * 10).toFixed(1);
+            // Multipliers
+            document.getElementById('x1').innerText = "x" + (1.1 + Math.random() * 0.5).toFixed(1);
+            document.getElementById('x2').innerText = "x" + (1.8 + Math.random() * 2.0).toFixed(1);
+            document.getElementById('x3').innerText = "x" + (4.0 + Math.random() * 12.0).toFixed(1);
+
+            // Chart Logic
+            const prob = Math.floor(Math.random() * 30) + 65; // 65% hatramin'ny 95%
+            document.getElementById('percent').innerText = prob + "%";
+            document.getElementById('bar').style.width = prob + "%";
 
             btn.innerText = "Calculer la Prédiction";
             btn.disabled = false;
-        }, 1500);
+        }, 2000);
     }
 </script>
 
