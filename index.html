@@ -5,17 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blizzard-Imperial Predict Pro</title>
     <style>
-        /* --- CSS VOALOHANY (TSY NIOVA) --- */
         :root {
-            --dark-bg: #0d1117;
+            --bg-dark: #0d1117;
             --card-bg: #161b22;
-            --input-bg: #0d1117;
             --accent-yellow: #f1c40f;
             --accent-cyan: #00d2ff;
+            --btn-green: linear-gradient(to right, #b4ec51, #429321);
         }
 
         body {
-            background-color: var(--dark-bg);
+            background-color: var(--bg-dark);
             color: white;
             font-family: 'Segoe UI', sans-serif;
             margin: 0;
@@ -26,69 +25,66 @@
         .app-container {
             width: 100%;
             max-width: 400px;
-            padding: 20px;
+            padding: 15px;
         }
 
+        /* Header mitovy amin'ny sary */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            padding: 10px 0;
         }
 
-        .brand { display: flex; align-items: center; gap: 12px; }
-        .diamond-icon {
-            width: 12px; height: 12px;
-            border: 2px solid var(--accent-yellow);
-            transform: rotate(45deg);
-        }
-
-        .brand-text { font-weight: bold; line-height: 1.1; }
+        .brand { display: flex; align-items: center; gap: 10px; }
+        .diamond { width: 12px; height: 12px; border: 2px solid var(--accent-yellow); transform: rotate(45deg); }
+        .brand-text { font-weight: bold; line-height: 1; font-size: 0.9rem; }
         .yellow-text { color: var(--accent-yellow); }
 
         .admin-badge {
             background: rgba(0, 210, 255, 0.1);
             color: var(--accent-cyan);
             border: 1px solid var(--accent-cyan);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            display: flex; align-items: center; gap: 5px;
         }
 
+        /* Card fenoina ny angona */
         .main-card {
             background: var(--card-bg);
-            border-radius: 18px;
+            border-radius: 15px;
             padding: 20px;
             border: 1px solid #30363d;
+            margin-top: 15px;
         }
 
-        .card-title { text-align: center; margin-bottom: 20px; }
-        .calc-emoji { font-size: 1.8rem; color: var(--accent-yellow); }
+        .card-header { text-align: center; margin-bottom: 20px; }
+        .card-header h2 { font-size: 1.1rem; margin-top: 5px; }
 
-        .input-container { margin-bottom: 15px; }
-        .input-container label {
-            display: block; font-size: 0.8rem;
-            color: #8b949e; margin-bottom: 6px;
-        }
-
-        input, .time-input-box {
+        .input-group { margin-bottom: 12px; }
+        .input-group label { display: block; font-size: 0.75rem; color: #8b949e; margin-bottom: 5px; }
+        
+        input, .time-box {
             width: 100%;
-            background: var(--input-bg);
+            background: #0d1117;
             border: 1px solid #30363d;
             color: white;
             padding: 12px;
-            border-radius: 10px;
-            font-size: 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
             box-sizing: border-box;
         }
 
-        .time-input-box { cursor: pointer; }
+        .time-box { cursor: pointer; display: flex; align-items: center; gap: 8px; }
 
-        .action-grid { display: flex; gap: 10px; margin-top: 25px; }
-        .btn-calculate {
+        /* Bokotra miloko mitovy amin'ny sary */
+        .btn-row { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-calc {
             flex: 2;
-            background: linear-gradient(to right, #b4ec51, #429321);
-            border: none; padding: 15px;
+            background: var(--btn-green);
+            border: none; padding: 12px;
             border-radius: 10px; font-weight: bold; cursor: pointer;
         }
 
@@ -98,148 +94,143 @@
             border-radius: 10px; cursor: pointer;
         }
 
-        .result-area h3 { text-align: center; margin: 30px 0 15px; color: var(--accent-cyan); }
-        .grid-results { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .res-card {
-            background: var(--card-bg);
-            padding: 15px; border-radius: 12px;
+        /* Fizarana vokatra */
+        .result-title { text-align: center; color: var(--accent-cyan); margin: 25px 0 15px; font-size: 0.9rem; }
+        .grid-results { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .res-item {
+            background: #1c222d;
+            padding: 12px; border-radius: 12px;
             text-align: center; border: 1px solid #30363d;
         }
+        .res-item p { margin: 0; font-size: 0.6rem; color: #8b949e; text-transform: uppercase; }
+        .res-item span { display: block; margin-top: 5px; font-weight: bold; font-size: 1rem; }
+        .yellow span { color: var(--accent-yellow); }
+        .cyan span { color: var(--accent-cyan); }
 
-        .res-card p { margin: 0; font-size: 0.7rem; color: #8b949e; }
-        .res-card span { display: block; margin-top: 5px; font-weight: bold; font-size: 1.1rem; }
-        .highlight span { color: var(--accent-yellow); }
-        .cyan-text span { color: var(--accent-cyan); }
-
-        /* --- HISTORIQUE (VAOVAO) --- */
+        /* Historique Section */
         .history-box {
-            margin-top: 30px;
+            margin-top: 20px;
             padding: 15px;
-            background: #161b22;
+            background: #11141b;
             border-radius: 12px;
             border: 1px dashed #30363d;
         }
-        .history-title { color: var(--accent-yellow); font-size: 0.9rem; margin-bottom: 10px; }
-        .history-item { 
-            font-size: 0.8rem; padding: 5px 0; border-bottom: 1px solid #30363d;
-            display: flex; justify-content: space-between;
-        }
+        .history-item { display: flex; justify-content: space-between; font-size: 0.75rem; padding: 5px 0; border-bottom: 1px solid #222; }
 
-        /* Modal Time Picker */
-        .modal-overlay {
+        /* Modal Time Picker mitovy amin'ny sary faha-19 */
+        .modal {
             display: none; position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%; background: rgba(0,0,0,0.85);
+            width: 100%; height: 100%; background: rgba(0,0,0,0.8);
             justify-content: center; align-items: center; z-index: 100;
         }
-
-        .modal-box {
+        .modal-content {
             background: white; color: #333;
-            padding: 25px; border-radius: 20px;
+            padding: 20px; border-radius: 20px;
             width: 280px; text-align: center;
         }
-
-        .picker-inputs input {
-            width: 50px; background: #f0f0f0;
-            color: #333; text-align: center; padding: 8px;
-        }
-
-        .modal-actions { display: flex; justify-content: space-around; margin-top: 20px; }
-        .modal-actions button { border: none; background: none; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="app-container">
         <header>
             <div class="brand">
-                <div class="diamond-icon"></div>
-                <div class="brand-text"><span class="white-text">Blizzard-</span><br><span class="yellow-text">Imperial</span></div>
+                <div class="diamond"></div>
+                <div class="brand-text">Blizzard-<br><span class="yellow-text">Imperial</span></div>
             </div>
-            <button class="admin-badge">🛡️ Admin</button>
+            <div style="display: flex; gap: 10px;">
+                <button class="admin-badge">🛡️ Admin</button>
+                <span style="font-size: 1.2rem; cursor: pointer;">🕒</span>
+            </div>
         </header>
 
         <main class="main-card">
-            <div class="card-title"><span class="calc-emoji">🖩</span><h2>Calculateur de Prédiction</h2></div>
+            <div class="card-header">
+                <span style="font-size: 1.5rem; color: var(--accent-yellow);">🖩</span>
+                <h2>Calculateur de Prédiction</h2>
+            </div>
 
-            <div class="input-container" onclick="openTimePicker()">
+            <div class="input-group" onclick="openPicker()">
                 <label>🕒 Heure de départ</label>
-                <div class="time-input-box" id="display-time">08:55:39</div>
+                <div class="time-box" id="disp-time">08:55:39</div>
             </div>
 
-            <div class="input-container">
+            <div class="input-group">
                 <label>Multiplicateur</label>
-                <input type="number" id="multiplier" placeholder="Ex: 1.75">
+                <input type="number" id="mult" placeholder="Ex: 1.75" step="0.01">
             </div>
 
-            <div class="input-container">
-                <label>Décimal</label>
-                <input type="text" id="decimal" value="8519041117">
+            <div class="input-group">
+                <label>Décimal (max 10 chiffres)</label>
+                <input type="text" id="dec" value="8519041117">
             </div>
 
-            <div class="action-grid">
-                <button class="btn-calculate" onclick="startCalc()">CALCULER</button>
+            <div class="btn-row">
+                <button class="btn-calc" onclick="calculate()">CALCULER</button>
                 <button class="btn-reset" onclick="reset()">Effacer</button>
             </div>
         </main>
 
-        <section class="result-area">
-            <h3>Résultat</h3>
-            <div class="grid-results">
-                <div class="res-card highlight"><p>PREDICTION</p><span id="res-prediction">--:--:--</span></div>
-                <div class="res-card"><p>TEMPS RAJOUTÉ</p><span id="res-added">00:00:00</span></div>
-                <div class="res-card cyan-text"><p>COTE MAX</p><span id="res-max">0.00</span></div>
-                <div class="res-card cyan-text"><p>COTE MOYEN</p><span id="res-avg">0.00</span></div>
-            </div>
-        </section>
+        <h3 class="result-title">Résultat</h3>
+        <div class="grid-results">
+            <div class="res-item yellow"><p>Prediction</p><span id="r-pred">--:--:--</span></div>
+            <div class="res-item"><p>Temps Rajouté</p><span id="r-add">00:00:00</span></div>
+            <div class="res-item cyan"><p>Cote Max</p><span id="r-max">0.00</span></div>
+            <div class="res-item cyan"><p>Cote Moyen</p><span id="r-avg">0.00</span></div>
+        </div>
 
         <div class="history-box">
-            <div class="history-title">📜 Historique</div>
-            <div id="history-list"></div>
+            <p style="font-size: 0.8rem; color: var(--accent-yellow); margin-top: 0;">📜 Historique</p>
+            <div id="hist-list"></div>
         </div>
     </div>
 
-    <div id="time-modal" class="modal-overlay">
-        <div class="modal-box">
-            <h4>Définir l'heure</h4>
-            <div class="picker-inputs">
-                <input type="number" id="h" value="08"> : <input type="number" id="m" value="55"> : <input type="number" id="s" value="39">
+    <div id="m-picker" class="modal">
+        <div class="modal-content">
+            <h4 style="color: var(--accent-cyan); margin-top: 0;">Définir l'heure</h4>
+            <div style="display: flex; justify-content: center; gap: 10px; margin: 20px 0;">
+                <input type="number" id="ph" value="08" style="width: 50px; background: #eee; color: #333;"> :
+                <input type="number" id="pm" value="55" style="width: 50px; background: #eee; color: #333;"> :
+                <input type="number" id="ps" value="39" style="width: 50px; background: #eee; color: #333;">
             </div>
-            <div class="modal-actions">
-                <button onclick="closePicker()" style="color:red">Annuler</button>
-                <button onclick="saveTime()" style="color:blue">Définir</button>
+            <div style="display: flex; justify-content: space-around;">
+                <button onclick="closePicker()" style="border:none; background:none; color:red; font-weight:bold;">Annuler</button>
+                <button onclick="setTime()" style="border:none; background:none; color:blue; font-weight:bold;">Définir</button>
             </div>
         </div>
     </div>
 
     <script>
-        /* --- JAVASCRIPT VOALOHANY (TSY NIOVA) --- */
-        function openTimePicker() { document.getElementById('time-modal').style.display = 'flex'; }
-        function closePicker() { document.getElementById('time-modal').style.display = 'none'; }
+        function openPicker() { document.getElementById('m-picker').style.display = 'flex'; }
+        function closePicker() { document.getElementById('m-picker').style.display = 'none'; }
         
-        function saveTime() {
-            const time = document.getElementById('h').value.padStart(2,'0')+':'+document.getElementById('m').value.padStart(2,'0')+':'+document.getElementById('s').value.padStart(2,'0');
-            document.getElementById('display-time').innerText = time;
+        function setTime() {
+            const time = document.getElementById('ph').value.padStart(2,'0') + ":" + 
+                         document.getElementById('pm').value.padStart(2,'0') + ":" + 
+                         document.getElementById('ps').value.padStart(2,'0');
+            document.getElementById('disp-time').innerText = time;
             closePicker();
         }
 
-        function startCalc() {
-            const mult = document.getElementById('multiplier').value;
-            if(!mult) return alert("Ampidiro ny Multiplicateur");
-
-            // Sanda ohatra tahaka ilay teo aloha
-            const res = "09:00:32";
-            document.getElementById('res-prediction').innerText = res;
-            document.getElementById('res-max').innerText = "45.00";
-
-            // Ampiana ao amin'ny historique
+        function calculate() {
+            const m = document.getElementById('mult').value;
+            if(!m) return alert("Ampidiro ny multiplicateur!");
+            
+            // Sanda ohatra avy amin'ny sary
+            const p = "09:00:32";
+            document.getElementById('r-pred').innerText = p;
+            document.getElementById('r-max').innerText = "45.00";
+            
+            // Historique
+            const h = document.getElementById('hist-list');
             const item = document.createElement('div');
             item.className = 'history-item';
-            item.innerHTML = `<span>${document.getElementById('display-time').innerText}</span> ➔ <b>${res}</b>`;
-            document.getElementById('history-list').prepend(item);
+            item.innerHTML = `<span>${document.getElementById('disp-time').innerText}</span> ➔ <b>${p}</b>`;
+            h.prepend(item);
         }
 
         function reset() {
-            document.getElementById('multiplier').value = '';
-            document.getElementById('res-prediction').innerText = '--:--:--';
+            document.getElementById('mult').value = '';
+            document.getElementById('r-pred').innerText = '--:--:--';
         }
     </script>
 </body>
