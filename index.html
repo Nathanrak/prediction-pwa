@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blizzard-Imperial Predict Pro</title>
     <style>
-        /* --- NY ENDRIKA (CSS) --- */
         :root {
             --dark-bg: #0d1117;
             --card-bg: #161b22;
             --input-bg: #0d1117;
             --accent-yellow: #f1c40f;
             --accent-cyan: #00d2ff;
+            --history-bg: #1c222d;
         }
 
         body {
@@ -33,7 +33,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .brand { display: flex; align-items: center; gap: 12px; }
@@ -46,15 +46,6 @@
         .brand-text { font-weight: bold; line-height: 1.1; }
         .yellow-text { color: var(--accent-yellow); }
 
-        .admin-badge {
-            background: rgba(0, 210, 255, 0.1);
-            color: var(--accent-cyan);
-            border: 1px solid var(--accent-cyan);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-
         .main-card {
             background: var(--card-bg);
             border-radius: 18px;
@@ -65,10 +56,10 @@
         .card-title { text-align: center; margin-bottom: 20px; }
         .calc-emoji { font-size: 1.8rem; color: var(--accent-yellow); }
 
-        .input-container { margin-bottom: 15px; }
+        .input-container { margin-bottom: 12px; }
         .input-container label {
             display: block; font-size: 0.8rem;
-            color: #8b949e; margin-bottom: 6px;
+            color: #8b949e; margin-bottom: 4px;
         }
 
         input, .time-input-box {
@@ -76,19 +67,19 @@
             background: var(--input-bg);
             border: 1px solid #30363d;
             color: white;
-            padding: 12px;
+            padding: 10px;
             border-radius: 10px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             box-sizing: border-box;
         }
 
         .time-input-box { cursor: pointer; }
 
-        .action-grid { display: flex; gap: 10px; margin-top: 25px; }
+        .action-grid { display: flex; gap: 10px; margin-top: 20px; }
         .btn-calculate {
             flex: 2;
             background: linear-gradient(to right, #b4ec51, #429321);
-            border: none; padding: 15px;
+            border: none; padding: 12px;
             border-radius: 10px; font-weight: bold; cursor: pointer;
         }
 
@@ -98,18 +89,40 @@
             border-radius: 10px; cursor: pointer;
         }
 
-        .result-area h3 { text-align: center; margin: 30px 0 15px; color: var(--accent-cyan); }
-        .grid-results { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        /* Results */
+        .result-area h3 { text-align: center; margin: 25px 0 10px; color: var(--accent-cyan); font-size: 1rem; }
+        .grid-results { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .res-card {
             background: var(--card-bg);
-            padding: 15px; border-radius: 12px;
+            padding: 12px; border-radius: 12px;
             text-align: center; border: 1px solid #30363d;
         }
-
-        .res-card p { margin: 0; font-size: 0.7rem; color: #8b949e; }
-        .res-card span { display: block; margin-top: 5px; font-weight: bold; font-size: 1.1rem; }
+        .res-card p { margin: 0; font-size: 0.65rem; color: #8b949e; }
+        .res-card span { display: block; margin-top: 4px; font-weight: bold; font-size: 1rem; }
         .highlight span { color: var(--accent-yellow); }
         .cyan-text span { color: var(--accent-cyan); }
+
+        /* Historique Section */
+        .history-section {
+            margin-top: 30px;
+            background: var(--history-bg);
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px dashed #30363d;
+        }
+        .history-section h4 { margin: 0 0 10px 0; font-size: 0.9rem; color: #8b949e; display: flex; justify-content: space-between; }
+        .history-list { max-height: 200px; overflow-y: auto; }
+        .history-item {
+            background: #0d1117;
+            padding: 8px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            border-left: 3px solid var(--accent-yellow);
+        }
+        .history-item .time { color: var(--accent-cyan); }
 
         /* Modal Time Picker */
         .modal-overlay {
@@ -117,22 +130,17 @@
             width: 100%; height: 100%; background: rgba(0,0,0,0.85);
             justify-content: center; align-items: center; z-index: 100;
         }
-
         .modal-box {
             background: white; color: #333;
-            padding: 25px; border-radius: 20px;
-            width: 280px; text-align: center;
+            padding: 20px; border-radius: 20px;
+            width: 260px; text-align: center;
         }
-
         .picker-inputs input {
-            width: 50px; background: #f0f0f0;
-            color: #333; text-align: center; padding: 8px;
+            width: 45px; background: #f0f0f0;
+            color: #333; text-align: center; padding: 5px; border: 1px solid #ccc;
         }
-
-        .modal-actions { display: flex; justify-content: space-around; margin-top: 20px; }
+        .modal-actions { display: flex; justify-content: space-around; margin-top: 15px; }
         .modal-actions button { border: none; background: none; font-weight: bold; cursor: pointer; }
-        .red { color: #d9534f; }
-        .blue { color: #0275d8; }
     </style>
 </head>
 <body>
@@ -145,15 +153,12 @@
                     <span class="yellow-text">Imperial</span>
                 </div>
             </div>
-            <div class="header-right">
-                <button class="admin-badge">🛡️ Admin</button>
-            </div>
         </header>
 
         <main class="main-card">
             <div class="card-title">
                 <span class="calc-emoji">🖩</span>
-                <h2>Calculateur de Prédiction</h2>
+                <h2 style="font-size: 1.1rem; margin: 5px 0;">Calculateur de Prédiction</h2>
             </div>
 
             <div class="input-container" onclick="openTimePicker()">
@@ -167,18 +172,13 @@
             </div>
 
             <div class="input-container">
-                <label>Décimal (max 10 chiffres)</label>
+                <label>Décimal</label>
                 <input type="text" id="decimal" value="8519041117">
-            </div>
-
-            <div class="input-container">
-                <label>Constante (max 10 chiffres)</label>
-                <input type="text" id="constant" value="4294967295">
             </div>
 
             <div class="action-grid">
                 <button class="btn-calculate" onclick="startCalculation()">CALCULER</button>
-                <button class="btn-reset" onclick="clearFields()">Réinitialiser</button>
+                <button class="btn-reset" onclick="clearFields()">Effacer</button>
             </div>
         </main>
 
@@ -187,14 +187,14 @@
             <div class="grid-results">
                 <div class="res-card highlight">
                     <p>PREDICTION</p>
-                    <span id="res-prediction">00:00:00</span>
+                    <span id="res-prediction">--:--:--</span>
                 </div>
                 <div class="res-card">
                     <p>TEMPS RAJOUTÉ</p>
                     <span id="res-added">00:00:00</span>
                 </div>
                 <div class="res-card cyan-text">
-                    <p>COTE MAX/VLV</p>
+                    <p>COTE MAX</p>
                     <span id="res-max">0.00</span>
                 </div>
                 <div class="res-card cyan-text">
@@ -203,33 +203,33 @@
                 </div>
             </div>
         </section>
+
+        <section class="history-section">
+            <h4>📜 Historique <span style="font-size: 0.7rem; cursor: pointer; color: #ff4d4d;" onclick="clearHistory()">Fafao</span></h4>
+            <div class="history-list" id="history-list">
+                <p id="empty-msg" style="font-size: 0.7rem; color: #555; text-align: center;">Tsy misy tantara aloha...</p>
+            </div>
+        </section>
     </div>
 
     <div id="time-modal" class="modal-overlay">
         <div class="modal-box">
-            <h4>Définir l'heure</h4>
+            <h4 style="margin-top:0">Définir l'heure</h4>
             <div class="picker-inputs">
                 <input type="number" id="h" value="08" min="0" max="23"> :
                 <input type="number" id="m" value="55" min="0" max="59"> :
                 <input type="number" id="s" value="39" min="0" max="59">
             </div>
             <div class="modal-actions">
-                <button onclick="hidePicker()" class="red">Effacer</button>
-                <button onclick="hidePicker()">Annuler</button>
-                <button onclick="confirmTime()" class="blue">Définir</button>
+                <button onclick="hidePicker()" style="color:#999">Annuler</button>
+                <button onclick="confirmTime()" style="color:#0275d8">Définir</button>
             </div>
         </div>
     </div>
 
     <script>
-        /* --- NY FIASA (JAVASCRIPT) --- */
-        function openTimePicker() {
-            document.getElementById('time-modal').style.display = 'flex';
-        }
-
-        function hidePicker() {
-            document.getElementById('time-modal').style.display = 'none';
-        }
+        function openTimePicker() { document.getElementById('time-modal').style.display = 'flex'; }
+        function hidePicker() { document.getElementById('time-modal').style.display = 'none'; }
 
         function confirmTime() {
             const hh = document.getElementById('h').value.padStart(2, '0');
@@ -241,21 +241,50 @@
 
         function startCalculation() {
             const mult = document.getElementById('multiplier').value;
+            const startTime = document.getElementById('display-time').innerText;
+
             if(!mult) {
-                alert("Azafady, ampidiro ny Multiplicateur!");
+                alert("Ampidiro ny Multiplicateur!");
                 return;
             }
 
-            // Ohatra fotsiny ireto:
-            document.getElementById('res-prediction').innerText = "09:00:32";
-            document.getElementById('res-added').innerText = "00:05:61";
-            document.getElementById('res-max').innerText = "45.00";
-            document.getElementById('res-avg').innerText = "22.00";
+            // Logic ohatra (azonao ovaina)
+            const pred = "09:02:45"; 
+            const added = "00:03:10";
+            const coteMax = (mult * 1.5).toFixed(2);
+            
+            // Mise à jour interface
+            document.getElementById('res-prediction').innerText = pred;
+            document.getElementById('res-added').innerText = added;
+            document.getElementById('res-max').innerText = coteMax;
+            document.getElementById('res-avg').innerText = (mult * 1.1).toFixed(2);
+
+            // Ampiana ao amin'ny Historique
+            addToHistory(startTime, pred, coteMax);
+        }
+
+        function addToHistory(start, result, cote) {
+            const list = document.getElementById('history-list');
+            const emptyMsg = document.getElementById('empty-msg');
+            if(emptyMsg) emptyMsg.remove();
+
+            const item = document.createElement('div');
+            item.className = 'history-item';
+            item.innerHTML = `
+                <span>Départ: ${start}</span>
+                <span class="time">🚀 ${result}</span>
+                <span style="color: #f1c40f;">x${cote}</span>
+            `;
+            list.prepend(item); // Ny vaovao indrindra no ambony
+        }
+
+        function clearHistory() {
+            document.getElementById('history-list').innerHTML = '<p id="empty-msg" style="font-size: 0.7rem; color: #555; text-align: center;">Tsy misy tantara aloha...</p>';
         }
 
         function clearFields() {
             document.getElementById('multiplier').value = '';
-            document.getElementById('display-time').innerText = "00:00:00";
+            document.getElementById('res-prediction').innerText = '--:--:--';
         }
     </script>
 </body>
