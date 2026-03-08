@@ -3,200 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviator HEX Predictor Pro</title>
+    <title>Blizzard-Imperial Predict Pro</title>
     <style>
-        /* CSS mampiely ny endrika Pro */
+        /* --- NY ENDRIKA (CSS) --- */
         :root {
-            --primary-gold: #ffb400;
-            --bg-dark: #0a0a0a;
-            --card-bg: #151515;
-            --input-bg: #222222;
+            --dark-bg: #0d1117;
+            --card-bg: #161b22;
+            --input-bg: #0d1117;
+            --accent-yellow: #f1c40f;
+            --accent-cyan: #00d2ff;
         }
 
         body {
-            background-color: var(--bg-dark);
+            background-color: var(--dark-bg);
             color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
             display: flex;
             justify-content: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 400px;
             padding: 20px;
-            margin: 0;
         }
 
-        .predictor-card {
-            background: var(--card-bg);
-            width: 100%;
-            max-width: 380px;
-            padding: 30px;
-            border-radius: 35px;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.9);
-            border: 1px solid #2a2a2a;
-        }
-
-        .live-clock {
-            background: #000;
-            padding: 20px;
-            border-radius: 20px;
-            font-size: 2.8rem;
-            font-weight: 900;
-            text-align: center;
-            margin-bottom: 30px;
-            border: 1px solid #333;
-            letter-spacing: 2px;
-            box-shadow: inset 0 0 15px rgba(255,255,255,0.05);
-        }
-
-        .label {
-            font-size: 11px;
-            color: #666;
-            text-transform: uppercase;
-            font-weight: 800;
-            margin-bottom: 8px;
-            display: block;
-            text-align: left;
-        }
-
-        .input-box {
-            background: var(--input-bg);
-            border: 1px solid #333;
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-
-        input {
-            background: transparent;
-            border: none;
-            color: var(--primary-gold);
-            font-size: 1.5rem;
-            font-weight: 800;
-            width: 100%;
-            text-align: center;
-            outline: none;
-        }
-
-        .btn-main {
-            background: linear-gradient(180deg, #ffcc00 0%, #ff8800 100%);
-            color: black;
-            width: 100%;
-            padding: 22px;
-            border-radius: 20px;
-            border: none;
-            font-weight: 900;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(255, 136, 0, 0.4);
-            margin-bottom: 30px;
-            transition: transform 0.2s;
-        }
-
-        .btn-main:active { transform: scale(0.96); }
-
-        .result-panel {
-            background: rgba(255,255,255,0.02);
-            border: 1px dashed #444;
-            border-radius: 30px;
-            padding: 25px;
-            text-align: center;
-        }
-
-        .res-time {
-            font-size: 3rem;
-            color: var(--primary-gold);
-            font-weight: 900;
-            margin: 10px 0;
-            text-shadow: 0 0 20px rgba(255, 180, 0, 0.5);
-        }
-
-        .mult-row {
+        header {
             display: flex;
-            justify-content: space-around;
-            margin-top: 15px;
-            font-weight: 900;
-            font-size: 1.5rem;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
         }
 
-        .footer-status {
-            font-size: 10px;
-            color: #333;
-            text-align: center;
-            margin-top: 25px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .diamond-icon {
+            width: 12px; height: 12px;
+            border: 2px solid var(--accent-yellow);
+            transform: rotate(45deg);
         }
+
+        .brand-text { font-weight: bold; line-height: 1.1; }
+        .yellow-text { color: var(--accent-yellow); }
+
+        .admin-badge {
+            background: rgba(0, 210, 255, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .main-card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 20px;
+            border: 1px solid #30363d;
+        }
+
+        .card-title { text-align: center; margin-bottom: 20px; }
+        .calc-emoji { font-size: 1.8rem; color: var(--accent-yellow); }
+
+        .input-container { margin-bottom: 15px; }
+        .input-container label {
+            display: block; font-size: 0.8rem;
+            color: #8b949e; margin-bottom: 6px;
+        }
+
+        input, .time-input-box {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid #30363d;
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .time-input-box { cursor: pointer; }
+
+        .action-grid { display: flex; gap: 10px; margin-top: 25px; }
+        .btn-calculate {
+            flex: 2;
+            background: linear-gradient(to right, #b4ec51, #429321);
+            border: none; padding: 15px;
+            border-radius: 10px; font-weight: bold; cursor: pointer;
+        }
+
+        .btn-reset {
+            flex: 1; background: #21262d;
+            color: white; border: none;
+            border-radius: 10px; cursor: pointer;
+        }
+
+        .result-area h3 { text-align: center; margin: 30px 0 15px; color: var(--accent-cyan); }
+        .grid-results { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .res-card {
+            background: var(--card-bg);
+            padding: 15px; border-radius: 12px;
+            text-align: center; border: 1px solid #30363d;
+        }
+
+        .res-card p { margin: 0; font-size: 0.7rem; color: #8b949e; }
+        .res-card span { display: block; margin-top: 5px; font-weight: bold; font-size: 1.1rem; }
+        .highlight span { color: var(--accent-yellow); }
+        .cyan-text span { color: var(--accent-cyan); }
+
+        /* Modal Time Picker */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.85);
+            justify-content: center; align-items: center; z-index: 100;
+        }
+
+        .modal-box {
+            background: white; color: #333;
+            padding: 25px; border-radius: 20px;
+            width: 280px; text-align: center;
+        }
+
+        .picker-inputs input {
+            width: 50px; background: #f0f0f0;
+            color: #333; text-align: center; padding: 8px;
+        }
+
+        .modal-actions { display: flex; justify-content: space-around; margin-top: 20px; }
+        .modal-actions button { border: none; background: none; font-weight: bold; cursor: pointer; }
+        .red { color: #d9534f; }
+        .blue { color: #0275d8; }
     </style>
 </head>
 <body>
+    <div class="app-container">
+        <header>
+            <div class="brand">
+                <div class="diamond-icon"></div>
+                <div class="brand-text">
+                    <span class="white-text">Blizzard-</span><br>
+                    <span class="yellow-text">Imperial</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="admin-badge">🛡️ Admin</button>
+            </div>
+        </header>
 
-<div class="predictor-card">
-    <div class="live-clock" id="clock">00:00:00</div>
+        <main class="main-card">
+            <div class="card-title">
+                <span class="calc-emoji">🖩</span>
+                <h2>Calculateur de Prédiction</h2>
+            </div>
 
-    <span class="label">Dernier Multiplicateur</span>
-    <div class="input-box">
-        <input type="number" id="lastM" step="0.01" value="1.36">
+            <div class="input-container" onclick="openTimePicker()">
+                <label>🕒 Heure de départ</label>
+                <div class="time-input-box" id="display-time">08:55:39</div>
+            </div>
+
+            <div class="input-container">
+                <label>Multiplicateur</label>
+                <input type="number" id="multiplier" placeholder="Ex: 1.75" step="0.01">
+            </div>
+
+            <div class="input-container">
+                <label>Décimal (max 10 chiffres)</label>
+                <input type="text" id="decimal" value="8519041117">
+            </div>
+
+            <div class="input-container">
+                <label>Constante (max 10 chiffres)</label>
+                <input type="text" id="constant" value="4294967295">
+            </div>
+
+            <div class="action-grid">
+                <button class="btn-calculate" onclick="startCalculation()">CALCULER</button>
+                <button class="btn-reset" onclick="clearFields()">Réinitialiser</button>
+            </div>
+        </main>
+
+        <section class="result-area">
+            <h3>Résultat</h3>
+            <div class="grid-results">
+                <div class="res-card highlight">
+                    <p>PREDICTION</p>
+                    <span id="res-prediction">00:00:00</span>
+                </div>
+                <div class="res-card">
+                    <p>TEMPS RAJOUTÉ</p>
+                    <span id="res-added">00:00:00</span>
+                </div>
+                <div class="res-card cyan-text">
+                    <p>COTE MAX/VLV</p>
+                    <span id="res-max">0.00</span>
+                </div>
+                <div class="res-card cyan-text">
+                    <p>COTE MOYEN</p>
+                    <span id="res-avg">0.00</span>
+                </div>
+            </div>
+        </section>
     </div>
 
-    <span class="label">HEX Data Analysis (Chiffres)</span>
-    <div class="input-box">
-        <input type="number" id="hexData" placeholder="Ex: 849201">
-    </div>
-
-    <button class="btn-main" onclick="runAnalysis()">Calculer la Prédiction</button>
-
-    <div class="result-panel">
-        <span class="label" style="text-align: center;">Prochain Signal</span>
-        <div class="res-time" id="resTime">--:--:--</div>
-        
-        <div class="mult-row">
-            <span style="color:#00f2ff" id="x1">x1.1</span>
-            <span style="color:var(--primary-gold)" id="x2">x1.8</span>
-            <span style="color:#ff3c3c" id="x3">x6.3</span>
+    <div id="time-modal" class="modal-overlay">
+        <div class="modal-box">
+            <h4>Définir l'heure</h4>
+            <div class="picker-inputs">
+                <input type="number" id="h" value="08" min="0" max="23"> :
+                <input type="number" id="m" value="55" min="0" max="59"> :
+                <input type="number" id="s" value="39" min="0" max="59">
+            </div>
+            <div class="modal-actions">
+                <button onclick="hidePicker()" class="red">Effacer</button>
+                <button onclick="hidePicker()">Annuler</button>
+                <button onclick="confirmTime()" class="blue">Définir</button>
+            </div>
         </div>
     </div>
 
-    <div class="footer-status">ALGORITHM: HEX-CHIFRE | STATUS: ENCRYPTED</div>
-</div>
-
-<script>
-    // 1. Mampandeha ny famantaranandro (Digital Clock)
-    setInterval(() => {
-        const now = new Date();
-        document.getElementById('clock').innerText = now.toLocaleTimeString('fr-FR');
-    }, 1000);
-
-    // 2. Lojika hikajiana ny Prediction
-    function runAnalysis() {
-        const btn = document.querySelector('.btn-main');
-        const hexInput = document.getElementById('hexData');
-        
-        // Raha tsy nameno ny HEX ianao dia mameno ho azy ny programa
-        if (!hexInput.value) {
-            hexInput.value = Math.floor(Math.random() * 900000) + 100000;
+    <script>
+        /* --- NY FIASA (JAVASCRIPT) --- */
+        function openTimePicker() {
+            document.getElementById('time-modal').style.display = 'flex';
         }
 
-        btn.innerText = "HEX ANALYSING...";
-        btn.disabled = true;
+        function hidePicker() {
+            document.getElementById('time-modal').style.display = 'none';
+        }
 
-        setTimeout(() => {
-            const now = new Date();
-            // Lojika: manampy 2 ka hatramin'ny 6 minitra ny ora izao
-            const randomWait = Math.floor(Math.random() * 5) + 2;
-            now.setMinutes(now.getMinutes() + randomWait);
-            
-            // Mampiseho ny ora manaraka (Signal)
-            document.getElementById('resTime').innerText = now.toLocaleTimeString('fr-FR');
+        function confirmTime() {
+            const hh = document.getElementById('h').value.padStart(2, '0');
+            const mm = document.getElementById('m').value.padStart(2, '0');
+            const ss = document.getElementById('s').value.padStart(2, '0');
+            document.getElementById('display-time').innerText = `${hh}:${mm}:${ss}`;
+            hidePicker();
+        }
 
-            // Mampiseho ny Multipliers kisendrasendra
-            document.getElementById('x1').innerText = "x" + (1.0 + Math.random() * 0.4).toFixed(1);
-            document.getElementById('x2').innerText = "x" + (1.6 + Math.random() * 1.4).toFixed(1);
-            document.getElementById('x3').innerText = "x" + (4.0 + Math.random() * 9.0).toFixed(1);
+        function startCalculation() {
+            const mult = document.getElementById('multiplier').value;
+            if(!mult) {
+                alert("Azafady, ampidiro ny Multiplicateur!");
+                return;
+            }
 
-            btn.innerText = "Calculer la Prédiction";
-            btn.disabled = false;
-        }, 1800);
-    }
-</script>
+            // Ohatra fotsiny ireto:
+            document.getElementById('res-prediction').innerText = "09:00:32";
+            document.getElementById('res-added').innerText = "00:05:61";
+            document.getElementById('res-max').innerText = "45.00";
+            document.getElementById('res-avg').innerText = "22.00";
+        }
 
+        function clearFields() {
+            document.getElementById('multiplier').value = '';
+            document.getElementById('display-time').innerText = "00:00:00";
+        }
+    </script>
 </body>
 </html>
