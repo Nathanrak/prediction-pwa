@@ -3,179 +3,316 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviator Prediction Tool</title>
+    <title>Aviator Analytics Pro - Dashboard</title>
     <style>
-        /* CSS: Endrika sy Loko */
+        /* --- CSS: ENDRIKA SY LOKO (PROFESSIONAL DARK) --- */
+        :root {
+            --gold: #c19a6b;
+            --bg-dark: #05070a;
+            --panel-bg: #0f1218;
+            --green-neon: #00ffcc;
+            --red-neon: #ff4444;
+            --text-grey: #8b949e;
+        }
+
         body {
-            background-color: #0b0e14;
+            background-color: var(--bg-dark);
             color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            overflow: hidden;
         }
 
-        .container {
-            background: linear-gradient(145deg, #161b22, #0d1117);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(138, 43, 226, 0.3);
-            text-align: center;
-            width: 350px;
-            border: 1px solid #30363d;
-        }
-
-        h1 {
-            font-size: 1.5rem;
-            color: #a371f7;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .display-box {
-            background-color: #010409;
-            border: 2px solid #8a2be2;
+        .dashboard-container {
+            width: 340px;
+            background: var(--panel-bg);
+            border: 1px solid var(--gold);
             border-radius: 15px;
-            padding: 40px 20px;
-            margin-bottom: 25px;
+            padding: 20px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.8);
+            border-top: 4px solid var(--gold);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 1.2rem;
+            color: var(--gold);
+            margin: 0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .session-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-grey);
+            margin-bottom: 15px;
+        }
+
+        /* Main Prediction Display */
+        .prediction-box {
+            background: #161b22;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 15px;
+            border-left: 5px solid var(--green-neon);
             position: relative;
         }
 
-        #predictionText {
-            font-size: 3.5rem;
+        .prediction-box .label {
+            font-size: 0.7rem;
+            color: var(--text-grey);
+            margin-bottom: 5px;
+        }
+
+        #main-prediction {
+            font-size: 3.2rem;
             font-weight: bold;
-            color: #00ffcc;
-            text-shadow: 0 0 20px rgba(0, 255, 204, 0.6);
-            margin: 0;
+            color: var(--green-neon);
+            text-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+            margin: 5px 0;
         }
 
-        .btn-predict {
-            background: linear-gradient(90deg, #8a2be2, #4b0082);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
-        }
-
-        .btn-predict:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(138, 43, 226, 0.6);
-            filter: brightness(1.2);
-        }
-
-        .btn-predict:active {
-            transform: translateY(1px);
-        }
-
-        .history {
-            margin-top: 25px;
-            text-align: left;
-        }
-
-        .history h3 {
-            font-size: 0.9rem;
-            color: #8b949e;
-            border-bottom: 1px dashed #30363d;
-            padding-bottom: 5px;
-        }
-
-        #historyList {
-            list-style: none;
-            padding: 0;
-            max-height: 100px;
-            overflow-y: auto;
-        }
-
-        .history-item {
-            display: inline-block;
-            background: #21262d;
-            padding: 5px 10px;
-            border-radius: 5px;
-            margin: 3px;
+        #prediction-time {
             font-size: 0.85rem;
-            color: #00ffcc;
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        /* Stats Grid (Base, Moyenne, Risque) */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .stat-card {
+            background: #0d1117;
+            padding: 10px 5px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #30363d;
+        }
+
+        .stat-card span {
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: var(--text-grey);
+            margin-bottom: 4px;
+        }
+
+        .stat-val {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--gold);
+        }
+
+        /* History Slots (6 Numbers) */
+        .history-section {
+            margin-bottom: 20px;
+        }
+
+        .history-label {
+            font-size: 0.75rem;
+            color: var(--text-grey);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .slots-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .slot {
+            background: #010409;
+            border: 1px dashed #30363d;
+            padding: 8px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #5bc0de;
+        }
+
+        /* Buttons */
+        .tour-btns {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-tsara {
+            background: rgba(0, 255, 204, 0.1);
+            color: var(--green-neon);
+            border: 1px solid var(--green-neon);
+        }
+
+        .btn-ratsy {
+            background: rgba(255, 68, 68, 0.1);
+            color: var(--red-neon);
+            border: 1px solid var(--red-neon);
+        }
+
+        .btn-analyze {
+            width: 100%;
+            padding: 15px;
+            background: var(--gold);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .btn-analyze:hover {
+            filter: brightness(1.1);
+        }
+
+        .btn-analyze:disabled {
+            background: #444;
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Aviator Predictor</h1>
-    
-    <div class="display-box">
-        <p id="predictionText">1.00x</p>
-    </div>
+    <div class="dashboard-container">
+        <div class="header">
+            <h1>ANALYTICS BANK</h1>
+        </div>
 
-    <button class="btn-predict" onclick="getPrediction()">GET PREDICTION</button>
+        <div class="session-info">
+            <span>DEPART: <b id="start-time">00:00:00</b></span>
+            <span>STATUS: <b id="status-text" style="color:var(--green-neon)">ACTIVE</b></span>
+        </div>
 
-    <div class="history">
-        <h3>Recent Results:</h3>
-        <div id="historyList">
+        <div class="prediction-box" id="prediction-ui">
+            <div class="label">NEXT PREDICTION AT: <span id="prediction-time">--:--:--</span></div>
+            <div id="main-prediction">0.00x</div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-label">C. BASE</span>
+                <span class="stat-val" id="val-base">--</span>
             </div>
+            <div class="stat-card">
+                <span class="stat-label">C. MOYENNE</span>
+                <span class="stat-val" id="val-moy">--</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">C. RISQUE</span>
+                <span class="stat-val" id="val-risque">--</span>
+            </div>
+        </div>
+
+        <div class="history-section">
+            <span class="history-label">LAST 6 MULTIPLIERS:</span>
+            <div class="slots-container" id="history-slots">
+                <div class="slot">--</div><div class="slot">--</div>
+                <div class="slot">--</div><div class="slot">--</div>
+                <div class="slot">--</div><div class="slot">--</div>
+            </div>
+        </div>
+
+        <div class="tour-btns">
+            <button class="btn btn-tsara" onclick="setTour('tsara')">TOUR TSARA</button>
+            <button class="btn btn-ratsy" onclick="setTour('ratsy')">TOUR RATSY</button>
+        </div>
+
+        <button class="btn-analyze" id="analyze-trigger">Analyze Trend</button>
     </div>
-</div>
 
-<script>
-    /* JavaScript: Logic sy Algorithm tsotra */
-    function getPrediction() {
-        const display = document.getElementById("predictionText");
-        const historyList = document.getElementById("historyList");
+    <script>
+        /* --- JAVASCRIPT: LOGIC SY KAJY --- */
+        document.addEventListener('DOMContentLoaded', () => {
+            const startTime = document.getElementById('start-time');
+            const analyzeBtn = document.getElementById('analyze-trigger');
+            const mainPred = document.getElementById('main-prediction');
+            const predTime = document.getElementById('prediction-time');
+            const slots = document.querySelectorAll('.slot');
 
-        // Manova ny lahatsoratra mandritra ny segondra vitsy (loading effect)
-        display.innerText = "---";
-        display.style.color = "#8b949e";
+            // 1. Ora nanombohana
+            startTime.innerText = new Date().toLocaleTimeString();
 
-        setTimeout(() => {
-            // Algorithm famoronana isa kisendrasendra
-            // Afaka ovanao eto ny "Probability"
-            let randomValue;
-            let chance = Math.random();
+            // 2. Function Analyze
+            analyzeBtn.addEventListener('click', () => {
+                analyzeBtn.disabled = true;
+                analyzeBtn.innerText = "CALCULATING...";
 
-            if (chance < 0.7) {
-                // 70% chance hahazoana 1.00x - 2.50x
-                randomValue = (Math.random() * (2.50 - 1.10) + 1.10).toFixed(2);
-            } else if (chance < 0.95) {
-                // 25% chance hahazoana 2.50x - 10.00x
-                randomValue = (Math.random() * (10.00 - 2.51) + 2.51).toFixed(2);
-            } else {
-                // 5% chance hahazoana isa ambony be
-                randomValue = (Math.random() * (50.00 - 10.01) + 10.01).toFixed(2);
-            }
+                setTimeout(() => {
+                    // Simulation an'ny isa 6 farany (Decimal 2)
+                    slots.forEach(slot => {
+                        let rand = (Math.random() * (3.0 - 1.0) + 1.0).toFixed(2);
+                        slot.innerText = rand + "x";
+                    });
 
-            // Mampiseho ny valiny
-            display.innerText = randomValue + "x";
-            display.style.color = "#00ffcc";
+                    // Kajy Prediction (Logic Bank)
+                    let now = new Date();
+                    now.setSeconds(now.getSeconds() + 45); // Prediction ho an'ny 45s manaraka
+                    predTime.innerText = now.toLocaleTimeString();
 
-            // Ampiana ao amin'ny History
-            const item = document.createElement("span");
-            item.className = "history-item";
-            item.innerText = randomValue + "x";
+                    let base = (Math.random() * (1.45 - 1.10) + 1.10).toFixed(2);
+                    let moy = (Math.random() * (2.80 - 1.60) + 1.60).toFixed(2);
+                    let risq = (Math.random() * (12.0 - 4.5) + 4.5).toFixed(2);
+
+                    document.getElementById('val-base').innerText = base + "x";
+                    document.getElementById('val-moy').innerText = moy + "x";
+                    document.getElementById('val-risque').innerText = risq + "x";
+                    
+                    // Ny Moyenne no aseho mibaribary
+                    mainPred.innerText = moy + "x";
+
+                    analyzeBtn.disabled = false;
+                    analyzeBtn.innerText = "Analyze Trend";
+                }, 1200);
+            });
+        });
+
+        // 3. Tour Indicator Logic
+        function setTour(type) {
+            const uiBox = document.getElementById('prediction-ui');
+            const status = document.getElementById('status-text');
             
-            // Ampidirina eo aloha foana ny vaovao
-            if (historyList.firstChild) {
-                historyList.insertBefore(item, historyList.firstChild);
+            if(type === 'tsara') {
+                uiBox.style.borderLeftColor = "#00ffcc";
+                status.innerText = "FAVORABLE";
+                status.style.color = "#00ffcc";
             } else {
-                historyList.appendChild(item);
+                uiBox.style.borderLeftColor = "#ff4444";
+                status.innerText = "RISKY";
+                status.style.color = "#ff4444";
             }
-
-            // Tazonina ho 5 fotsiny ny tantara hita maso
-            if (historyList.childNodes.length > 5) {
-                historyList.removeChild(historyList.lastChild);
-            }
-
-        }, 800); // 0.8 segondra ny "loading"
-    }
-</script>
-
+        }
+    </script>
 </body>
 </html>
